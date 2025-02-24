@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: savemoneydb
+      MYSQL_ROOT_PASSWORD: ""   # Không yêu cầu mật khẩu
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # Cho phép không nhập password
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: >
+      --default-authentication-plugin=mysql_native_password
+
+volumes:
+  mysql-data:
